@@ -995,8 +995,9 @@ def PairStatusWithCommands(fileOne, fileTwo, m):
 
     return  
 
-import binascii
 
+####################################### main routine #########################################3
+import binascii
 import math
 
 inputFile1 = "Ross2.csv"

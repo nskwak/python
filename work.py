@@ -1,5 +1,18 @@
 #!/usr/bin/python3
 
+#2020/02/09
+open_a_csv = open("a.csv", "r")
+myvar = open_a_csv.readline()
+print(myvar)
+myvarsplit = myvar.split(',')
+print("myvarsplit[0]", myvarsplit[0])
+print("myvarsplit[1]", myvarsplit[1])
+print("myvarsplit[2]", myvarsplit[2])
+
+# print(lenth(myvarsplit))
+
+'''
+#2020/0208
 import argparse
 import sys
 
@@ -27,16 +40,7 @@ def ParseArgs():
         #parser.print_help()
         sys.exit(1)
 
-
-
 if __name__ == "__main__":
     ParseArgs()
     print("complete ParseArgs method!\n")
-    open_a_csv = open("a.csv", "r")
-    myvar=open_a_csv.readline()
-    print(myvar)
-    myvarsplit=myvar.split(',')
-    print(myvarsplit)
-    print(lenth(myvarsplit))
-
-
+'''
