@@ -995,208 +995,92 @@ def PairStatusWithCommands(fileOne, fileTwo, m):
 
     return  
 
+################################ main loop ########################################
 import binascii
-
 import math
-
 inputFile1 = "Ross2.csv"
-
 outputFile = "Notification.out"
-
 outputFile1 = "Ross2.out"
-
 outputFile2 = "Temp.out"
 
- 
-
 j = open(inputFile1,"r")
-
 k = open(outputFile, "w")
-
 m = open(outputFile1, 'w')
-
 n = open(outputFile2, 'w')
-
 m.write('This program analyzes data from a Lecroy and tries to construct a trail of OS activity. \n')
-
 m.write('We scan the entire trace to extract address for command and status queues, and event and notification buffers. \n')
-
 m.write('Temporary files are created for command queue addresses(CommandFIFO.txt), status queues(Status.txt) and \n')
-
 m.write('events and notifications(Events.txt).  \n')
 
- 
-
- 
-
- 
-
- 
-
- 
-
 arrayOfCommandData = ['' for x in range(0,10)]
-
 readArray = [0 for x in range(0,2)]
-
 bufferData = [0 for x in range(0,2)]
-
 lbaString2=["        "]
-
 lastCommand = ''
-
 lastCommandRW = 'false'
-
 commandFound = 'false'
-
 dataSearchNext=  'false'
-
 addedPrintString = ''
 
- 
-
- 
-
 interruptCount = 0
-
 lineLength = 10
-
 bufferData = 0
-
- 
-
- 
-
- 
-
 nextIndex = 0
 
- 
-
 print('Input file = ' + inputFile1)
-
 print()
-
 print('Output file = ' + outputFile1)
-
 print()
-
- 
 
 #  The result of this is a file Notification.out with the notifications decoded plus the buffer start for event buffer and notification buffer.
-
- 
-
 (buffer1, buffer2) = ProcessTheNotificationAndEventBuffers(j, k, bufferData, 'Notification.out')
-
- 
-
 (base, depth) = ProcessTheCommandFIFO()
-
- 
-
 if (buffer1 > buffer2):
-
     eventBuffer = buffer2
-
     notificationBuffer = buffer1
-
 else:
-
     eventBuffer = buffer1
-
     notificationBuffer = buffer2
-
- 
 
 j.seek(0)
 
- 
-
- 
-
 commandQueues         = [0 for x in range(0, 10)]
-
 commandQueueDepths    = [0 for x in range(0, 10)]
-
 statusQueues          = [0 for x in range(0, 10)]
-
 statusQueueDepths     = [0 for x in range(0, 10)]
 
- 
-
- 
-
- 
-
 ExtractAQueue('CommandFIFO.txt', 512, 64, commandQueues, commandQueueDepths)
-
 ExtractAQueue('Status.txt', 512, 16, statusQueues, statusQueueDepths)
 
- 
-
- 
-
 commandQueueCnt = 0
-
 statusQueueCnt = 0
 
 i = 0
-
- 
-
 for i in commandQueues:
-
     if (i != 0):
-
         commandQueueCnt += 1
 
- 
-
 for i in statusQueues:
-
     if (i != 0):
-
         statusQueueCnt += 1
 
 # Make sure we have the same number of queues.  I saw an error case where I got an extra status queue.
-
 SanityCheckTheQueues(commandQueues, commandQueueDepths, commandQueueCnt,  statusQueues, statusQueueDepths, statusQueueCnt)
 
- 
-
 commandQueueCnt = 0
-
 statusQueueCnt = 0
-
 i = 0
 
- 
-
 for i in commandQueues:
-
     if (i != 0):
-
         commandQueueCnt += 1
 
- 
-
 for i in statusQueues:
-
     if (i != 0):
-
         statusQueueCnt += 1
 
- 
-
 print(commandQueues)       
-
-print(commandQueueCnt)            
-
- 
-
- 
-
+print(commandQueueCnt)
 print(statusQueues)
 
 print(statusQueueCnt)
@@ -1280,9 +1164,6 @@ m.write('\n')
  
 
 m.write('{:24s}'.format('Sequence #') + '{:60s}'.format('Command') + '{:20s}'.format('Time') + '{:10s}'.format('Slot') + '{:10s}'.format('Queue') + '{:10s}'.format('Status') +'\n\n\n')
-
- 
-
 ProcessCommandAndStatus(j, k, bufferData, 'Notification.out', commandQueues, commandQueueCnt, statusQueues, statusQueueCnt)
 
  
