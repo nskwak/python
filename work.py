@@ -31,6 +31,12 @@ def ParseArgs():
 
 if __name__ == "__main__":
     ParseArgs()
-    print("complete!")
+    print("complete ParseArgs method!\n")
+    open_a_csv = open("a.csv", "r")
+    myvar=open_a_csv.readline()
+    print(myvar)
+    myvarsplit=myvar.split(',')
+    print(myvarsplit)
+    print(lenth(myvarsplit))
 
 
