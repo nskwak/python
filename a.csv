@@ -1,12 +1,16 @@
-fio, a.png, pass
-gra, c.jpg, fail
-ung, q.jpg, fail
-ung, q.jpg, pass
-gra, q.jpg, pass
-cli, q.jpg, fail
-cli, q.jpg, pass
-gra, q.jpg, fail
-fio, q.jpg, pass
-ung, q.jpg, pass
-fio, q.jpg, fail
-cli, q.jpg, fail
+fio,a.png,pass
+fio,c.jpg,fail
+ung,q.jpg,fail
+ung,q.jpg,pass
+gra,q.jpg,pass
+cli,q.jpg,fail
+cli,q.jpg,pass
+gra,q.jpg,fail
+fio,q.jpg,pass
+ung,q.jpg,pass
+fio,q.jpg,fail
+cli,q.jpg,fail
+cli,q.jpg,fail
+ung,q.jpg,fail
+gra,q.jpg,fail
+gra,q.jpg,pass
