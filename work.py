@@ -1,18 +1,102 @@
 #!/usr/bin/python3
 
 #2020/02/09
-open_a_csv = open("a.csv", "r")
-myvar = open_a_csv.readline()
-print(myvar)
-myvarsplit = myvar.split(',')
-print("myvarsplit[0]", myvarsplit[0])
-print("myvarsplit[1]", myvarsplit[1])
-print("myvarsplit[2]", myvarsplit[2])
+'''
+#####################################################################
+a = {'city': 'San Francisco', 'name': 'Sam', "food": "shrimps", "aaaa": "cccc"}
+for i, j in a.items():
+    print("key is: %s" % i)
+    print("value is: %s" % j)
+    print("###########################")
+#####################################################################
+'''
 
-# print(lenth(myvarsplit))
+aa = [        ['Team', 'Games'],        ['Arsenal', '38'],        ['Liverpool', '38']    ]
 
 '''
+#####################################################################
+[example for dictionary]
+1. add
+a={'av':'db', 'a':'b'}
+a['aa']=;'cc'
+a={'aa':'cc', 'av':'db', 'a':'b'}
+2. print
+print(a)
+3. looping
+for i, j in a.items():
+    print(i)
+    print(j)
+4. update
+a={'a':'aa'}
+b={'b':'bb', 'c':'cc'}
+a.update(b)
+a={'a':'aa', 'b':'bb', 'c':'cc'}
+5. find
+myVal1=inputfile.readline()
+num_hit=myVal1.find('aaa') => number of hit column
+#####################################################################
+'''
+
+
+#####################################################################
+# Jon's python coding question
+a={'tester':'fio', 'file':'a.png', 'result':'pass'}
+b={'tester':'gra', 'file':'b.png', 'result':'fail'}
+c={'tester':'ung', 'file':'c.png', 'result':'fail'}
+d={'tester':'ung', 'file':'q.png', 'result':'pass'}
+e={'tester':'gra', 'file':'q.png', 'result':'pass'}
+
+inputfile1 = open("a.csv", "r")
+testresult = open("a1.out", "w")
+
+a_out ={}
+linelength = 1
+testcount = 0
+while(linelength != 0):
+    myVar1 = inputfile1.readline()
+    firsthit=myVar1.find('c.jpg')
+    print(myVar1)
+    print(firsthit)
+    testresult.write(myVar1)
+    linelength = len(myVar1)
+    #print("KK_ linelength=", linelength)
+    if (linelength == 0):
+        break
+    testcount = testcount + 1
+    var_split=myVar1.split(',')
+
+    #a_upd={var_split[0]:var_split[1]:var_split[2]}
+    #print(var_split[0])
+
+print("test count=%d" % testcount)
+print("end of file")
+#####################################################################
+
+
+
+'''
+#####################################################
+    while (lineLength != 0):
+
+#    for pp in range(0,4000000):
+
+        myVar1 = j.readline()
+        lineLength = len(myVar1)
+        if (lineLength == 0):
+                        break
+#####################################################################
+'''
+
+
+
+
+
+'''
+##########################################################
+##########################################################
 #2020/0208
+##########################################################
+##########################################################
 import argparse
 import sys
 

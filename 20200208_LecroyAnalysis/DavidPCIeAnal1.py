@@ -27,105 +27,55 @@ def ProcessTheNotificationAndEventBuffers(j, k, bufferData, fileName):
 # Here we're going to preprocess the data to find out where the notification and event buffers are.
 # This is done by looking for 16 byte MemWrs from the drive.
     bufferSize = 65536
-
     lineLength = 1
-
     minValueBuffer0 = 1000000
-
     minValueBuffer1 = 1000000
-
     buffer0Start = 0
-
     buffer1Start = -1
-
     lastIndex = -1
-
     lastAddress = 0
-
     a = open('CommandFifo.txt', 'w')
-
     b = open('Status.txt', 'w')
-
     c = open('Events.txt', 'w')
-
     print('Scanning the file for Events and Notifications. This takes about 1 min. ')
 
- 
-
     while (lineLength != 0):
-
 #    for pp in range(0,4000000):
-
         myVar1 = j.readline()
-
         lineLength = len(myVar1)
-
         if (lineLength == 0):
-
                         break
 
- 
-
         firstHit = myVar1.find('MWr(64)')
-
         secondHit = myVar1.find('Upstream')
-
         thirdHit = myVar1.find('MWr')
-
         fourthHit = myVar1.find('MRd')
 
         if (((firstHit > -1) | (thirdHit > -1)) & (secondHit > -1) | (fourthHit > -1)):
-
             myNewLineSplit = myVar1.split(',')
-
             tpLength = int(myNewLineSplit[24], 10)
-
             seqNumber = myNewLineSplit[1]
-
-           
-
             address = myNewLineSplit[28]
-
             address = address.replace(':', '')
-
             addressInHexAll = int(address,16)
-
             addressInHex = (int(address, 16)) & 0xffffffff
-
             addressInHexHigh = (int(address, 16)) & 0xffffffff00000000
-
             addressInHex = int(addressInHex)
 
             data = myNewLineSplit[len(myNewLineSplit)-7].split()
-
             if(tpLength == 2):
-
                 eventID = int(data[1], 16) & 0x3f
-
                 timeStamp = (int(data[1], 16) & 0xFFFFFFC0)/64
-
                 key = eventID
-
                 if (key in eventIDDictionary):
-
                     eventString = eventIDDictionary[key]
-
- 
-
                     temp = addressInHex % bufferSize
-
                     bufferIndex = temp/8
-
-#                    k.write('{:10s}'.format(seqNumber) +  '{:30s}'.format(address) + '{:20s}'.format(data[0]) + '{:20s}'.format(str((timeStamp))) + '{:30s}'.format(eventString) + '{:10s}'.format(str(hex(int(bufferIndex)))) + '\n')   
-
+#                    k.write('{:10s}'.format(seqNumber) +  '{:30s}'.format(address) + '{:20s}'.format(data[0]) + '{:20s}'.format(str((timeStamp))) + '{:30s}'.format(eventString) + '{:10s}'.format(str(hex(int(bufferIndex)))) + '\n')
                     if (lastIndex != -1):
-
                         if(bufferIndex == lastIndex + 1):
-
                             if (buffer0Start == 0):
-
-                                buffer0Start = addressInHex - bufferIndex*8 + addressInHexHigh                                                                      
-
+                                buffer0Start = addressInHex - bufferIndex*8 + addressInHexHigh
                     if (lastAddress > 0):
 
                         if (abs(addressInHex - lastAddress) > bufferSize):
@@ -139,182 +89,86 @@ def ProcessTheNotificationAndEventBuffers(j, k, bufferData, fileName):
                     lastAddress = addressInHex
 
             # 64 byte MWr.  Could be notification or status.
-
             if((tpLength == 4) & (firstHit > 1)):
-
                 data0 = int(data[0], 16)
-
-                data1 = int(data[1], 16)                             
-
+                data1 = int(data[1], 16)
                 if ((data0 != 0) | (data1 != 0)):
-
                     c.write(str(hex(addressInHexAll)) + '\n')
 
-                  
-
             #  16 word memory reads.  Command FIFO
-
             if((tpLength == 16) & (fourthHit > 1)):
-
                 a.write(str(hex(addressInHexAll)) + '\n')
-
-               
-
                                                 #  MWr, could be status write or notification write.  D0 and D1 on status write are 0.
 
             if((tpLength == 4) & (thirdHit > 1)):
-
                 data0 = int(data[0], 16)
-
-                data1 = int(data[1], 16)                             
-
+                data1 = int(data[1], 16)
                 if ((data0 == 0) & (data1 == 0)):
-
                     b.write(str(hex(addressInHexAll)) + '\n')
-
                     if (abs(addressInHexAll - 0x173240000) < 1000000):
-
                         print('Found it')
-
                         print(seqNumber)
-
- 
-
-                   
-
     a.close()
-
     b.close()
-
     c.close()
-
-    return (buffer0Start, buffer1Start)                     
+    return (buffer0Start, buffer1Start)
 
 def ProcessCommandAndStatus(j, k, bufferData, fileName, commandQueues, commandQueueCnt, statusQueues, statusQueueCnt):
-
 # Here we're going to preprocess the data to find out where the notification and event buffers are.
-
 # This is done by looking for 16 byte MemWrs from the drive.
 
- 
-
- 
-
     j.seek(0)
-
     bufferSize = 65536
-
     lineLength = 1
-
     minValueBuffer0 = 1000000
-
     minValueBuffer1 = 1000000
-
     buffer0Start = 0
-
     buffer1Start = -1
-
     lastIndex = -1
-
     lastAddress = 0
-
     a = open('CommandFifo.txt', 'w')
-
     b = open('Status.txt', 'w')
-
     c = open('Events.txt', 'w')
-
     print('Scanning the file for Events and Notifications. This takes about 1 min. ')
 
- 
-
     while (lineLength != 0):
-
 #    for pp in range(0,4000000):
-
         myVar1 = j.readline()
-
         lineLength = len(myVar1)
-
         if (lineLength == 0):
-
                         break
 
- 
-
         firstHit = myVar1.find('MWr(64)')
-
         secondHit = myVar1.find('Upstream')
-
         thirdHit = myVar1.find('MWr')
-
         fourthHit = myVar1.find('MRd(32)')
-
         if (((firstHit > -1) | (thirdHit > -1)) & (secondHit > -1) | (fourthHit > -1)):
-
             myNewLineSplit = myVar1.split(',')
-
             tpLength = int(myNewLineSplit[24], 10)
-
             seqNumber = myNewLineSplit[1]
-
-           
-
             address = myNewLineSplit[28]
-
             address = address.replace(':', '')
-
             addressInHexAll = int(address,16)
-
             addressInHex = (int(address, 16)) & 0xffffffff
-
             addressInHexHigh = (int(address, 16)) & 0xffffffff00000000
-
             addressInHex = int(addressInHex)
-
             data = myNewLineSplit[len(myNewLineSplit)-7].split()
-
             # 64 byte MWr.  Probably events and notifications.
-
             #  16 word memory reads.  Command FIFO
-
             if((tpLength == 16) & (fourthHit > 1)):
-
                 (queue, index) = FindTheSlot(addressInHexAll, commandQueues, commandQueueCnt, 64, 256*64)
-
                 a.write(seqNumber + '   ' + str(queue) + '   ' + str(index)  + '\n')
-
- 
-
- 
-
- 
-
                                                 # MWr, either status or notifications.
-
             if((tpLength == 4) & (thirdHit > 1)):
-
                 data0 = int(data[0], 16)
-
                 data1 = int(data[1], 16)
-
                 if ((data0 == 0) & (data1 == 0)):
-
                     (queue, index) = FindTheSlot(addressInHexAll, statusQueues, statusQueueCnt, 16, 512*16)
-
                     b.write(seqNumber + '   ' + str(queue) + '   ' + str(int(index))  + '    ' + data[3] + '\n')
-
- 
-
-                   
-
     a.close()
-
     b.close()
-
     c.close()
-
-    return (buffer0Start, buffer1Start)                     
+    return (buffer0Start, buffer1Start)
 
 def FindTheSlot(address, queueArray, queueCnt, entrySize, queueSize):
 
@@ -838,283 +692,124 @@ def OutputEventOrNotification(m, data0, data1, timeStamp, seqNumber, buffer1, bu
         m.write('{:10s}'.format(seqNumber) + '{:100s}'.format('Notification    ' + eventString + '    Index  ' + str((int(index2))) + '  Timestamp   ' + str(hex(int(timeStamp)))) + '{:s}'.format(time) + '\n')
 
 def PairStatusWithCommands(fileOne, fileTwo, m):
-
 #             fileOne is a list of commands indexed by sequence number. It contains queue and slot info for each command
-
 #   fileTwo contains a list of status responses indexed by sequence number containing queue and slot info.
-
 #   This subroutine finds the status for each command by matching sequence, queue and slot.
 
- 
-
- 
-
- 
-
     a = open(fileOne, 'r')
-
     b = open(fileTwo, 'r')
-
- 
-
- 
-
     statusBuffer = b.read()
-
     statusBufferLength = statusBuffer.count('\n')
-
     statusBuffer = statusBuffer.split('\n')
-
- 
 
     print('Total number of Status to process. ', statusBufferLength)
 
- 
-
     commandLineCount = 0
-
     searchStart = 0
-
     statusBufferCount = 0
-
- 
 
     length = 10
 
     while (length != 0):
-
     #for i in range(0, 10000):
-
- 
-
         myVar1 = a.readline()
-
         commandLineCount = commandLineCount + 1
-
         if (len(myVar1) == 0):
-
             break
-
- 
-
         hit1 = myVar1.find('Status')
-
         if (hit1 < 1):
-
             m.write(myVar1 + '\n')
-
             continue
 
- 
-
         myVar1Split = myVar1.split()
-
         myVar1Split2 = myVar1.split(' ')
 
- 
-
         for i in [i for i,x in enumerate(myVar1Split) if x == 'Status']:
-
             status = i
-
         queue = myVar1Split[status - 1]
-
         slot  = myVar1Split[status - 2]
-
         seqNumber = myVar1Split[0]
 
- 
-
-    
-
     #  Here we know the value of sequence number, queue and slot we need to match with the status.
-
-   
-
         for kk in range(searchStart, statusBufferLength):
-
- 
-
             myVar2 = statusBuffer[kk]
-
- 
-
             myVar2Split         = myVar2.split()
-
             statusSeqNumber     = myVar2Split[0]
-
             statusQueueNumber   = myVar2Split[1]
-
             statusSlotNumber    = myVar2Split[2]
-
             actualStatus        = myVar2Split[3]
 
- 
-
             if (statusSeqNumber < seqNumber):
-
-                       
-
                 continue
 
- 
-
             if ((slot == statusSlotNumber) & (queue == statusQueueNumber)):
-
- 
-
                 myVar1Split[status] = actualStatus
-
                 for jj in [jj for jj,x in enumerate(myVar1Split2) if x == 'Status']:
-
                    statusIsHere = jj
-
                    myVar1Split2[statusIsHere] = '    ' + str(hex(int((int(actualStatus, 16) & 0xFFFF0000)/2/65536)))
-
                 m.write(' '.join(myVar1Split2) + '\n')
-
                 statusBufferCount = statusBufferCount + 1
-
                 if ((statusBufferCount % 1000) == 0):
-
                     print('Total Status Processed  ', statusBufferCount, ' Total lines  ', statusBufferLength)
-
                 if (statusBufferCount > 100):
-
                     searchStart = statusBufferCount - 100
-
                 break
-
- 
-
     a.close()
-
     b.close()
-
- 
 
     return  
 
-
-####################################### main routine #########################################3
+#############################################################################################
+####################################### main routine ########################################
+#############################################################################################
 import binascii
 import math
 
 inputFile1 = "Ross2.csv"
-
 outputFile = "Notification.out"
-
 outputFile1 = "Ross2.out"
-
 outputFile2 = "Temp.out"
 
- 
-
 j = open(inputFile1,"r")
-
 k = open(outputFile, "w")
-
 m = open(outputFile1, 'w')
-
 n = open(outputFile2, 'w')
-
 m.write('This program analyzes data from a Lecroy and tries to construct a trail of OS activity. \n')
-
 m.write('We scan the entire trace to extract address for command and status queues, and event and notification buffers. \n')
-
 m.write('Temporary files are created for command queue addresses(CommandFIFO.txt), status queues(Status.txt) and \n')
-
 m.write('events and notifications(Events.txt).  \n')
 
- 
-
- 
-
- 
-
- 
-
- 
-
 arrayOfCommandData = ['' for x in range(0,10)]
-
 readArray = [0 for x in range(0,2)]
-
 bufferData = [0 for x in range(0,2)]
-
 lbaString2=["        "]
-
 lastCommand = ''
-
 lastCommandRW = 'false'
-
 commandFound = 'false'
-
 dataSearchNext=  'false'
-
 addedPrintString = ''
-
- 
-
- 
-
 interruptCount = 0
-
 lineLength = 10
-
 bufferData = 0
-
- 
-
- 
-
- 
-
 nextIndex = 0
 
- 
-
 print('Input file = ' + inputFile1)
-
 print()
-
 print('Output file = ' + outputFile1)
-
 print()
-
- 
 
 #  The result of this is a file Notification.out with the notifications decoded plus the buffer start for event buffer and notification buffer.
-
- 
-
 (buffer1, buffer2) = ProcessTheNotificationAndEventBuffers(j, k, bufferData, 'Notification.out')
-
- 
-
 (base, depth) = ProcessTheCommandFIFO()
 
- 
-
 if (buffer1 > buffer2):
-
     eventBuffer = buffer2
-
     notificationBuffer = buffer1
-
 else:
-
     eventBuffer = buffer1
-
     notificationBuffer = buffer2
 
- 
-
 j.seek(0)
-
- 
-
- 
 
 commandQueues         = [0 for x in range(0, 10)]
 
