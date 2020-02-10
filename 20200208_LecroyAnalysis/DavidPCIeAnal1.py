@@ -171,130 +171,65 @@ def ProcessCommandAndStatus(j, k, bufferData, fileName, commandQueues, commandQu
     return (buffer0Start, buffer1Start)
 
 def FindTheSlot(address, queueArray, queueCnt, entrySize, queueSize):
-
- 
-
     mask = 0xFFFFFFFFF - (queueSize - 1)
-
     slot = -1
-
     queue = -1
-
     addressTarget =address & mask
 
     for i in range(0,queueCnt):
-
         if (addressTarget == int(queueArray[i], 16)):
-
             queue = i
-
             slot = (address - int(queueArray[queue], 16)   )/entrySize
-
             return (queue, slot)
 
     return (queue, slot)   
 
 def ProcessTheCommandFIFO():
-
- 
-
    a = open('CommandFIFO.txt', 'r')
-
    buffer = a.read()
-
    print(len(buffer))
-
    print(buffer[0:40])
-
    a.close
-
    return (0, 0)
 
 def ExtractAQueue(fileName, queueDepth, entrySize, addressRanges, queueDepths):
     a = open(fileName, 'r')
-
     buffer = a.read()
-
     a.close()
-
- 
-
     buffer = buffer.replace('  ', '')
-
     buffer = buffer.split('\n')
-
- 
-
     length = len(buffer)
-
     maxValue = max(buffer)
-
     print(str(maxValue))
-
     print(buffer.index(maxValue))
 
- 
-
     minValue = min(buffer[0:length-1])
-
     print(buffer.index(minValue))
-
     print(str(minValue))
-
- 
-
     print(addressRanges[0])
-
     queueDepth1 = queueDepth * entrySize
 
-   
-
     for i in range(0, length-1):
-
         temp = (hex( int(buffer[i], 16) & (0xFFFFFFFFFFFFFFFF - (queueDepth1 -1))))
-
         addressInHex = int(buffer[i], 16)
-
         try:
-
             currentOffset = addressRanges.index(0)
-
         except ValueError:
-
             currentOffset = -1
 
         try:
-
             isTheValueAlreadyThere = addressRanges.index(temp)
-
         except ValueError:
-
              isTheValueAlreadyThere = -1
 
- 
-
- 
-
- 
-
         if(isTheValueAlreadyThere == -1):
-
             addressRanges[currentOffset] = temp
-
- 
-
- 
 
         CountTheSlots(addressInHex, entrySize, addressRanges, queueDepths, queueDepth1)
 
-   
-
     for i in range(0,10):
-
         if (addressRanges[i] == 0):
-
             queueCount = i
-
             break
 
 def SanityCheckTheQueues(commandQueues, commandQueueDepths, commandQueueCnt, statusQueues, statusQueueDepths, statusQueueCnt):
@@ -323,24 +258,14 @@ def SanityCheckTheQueues(commandQueues, commandQueueDepths, commandQueueCnt, sta
             commandQueueDepths[k] = statusQueueDepths[k + 1]
 
 def FindTheQueueAndSlot(queuesInUse, queueCount, address, queueDepth, entrySize):
-
- 
-
     #Find out which of the queues contains the current address.
-
     addressInHex = address
-
     for i in range(0, queueCount):
-
         if (type(queuesInUse[i]) == str):
-
             diff = abs(int(addressInHex, 16) - int(queuesInUse[i], 16))
-
             if (diff < queueDepth):
-
                 slot = diff/entrySize
-
-                return i, slot   
+                return i, slot
 
 def CountTheSlots(addressInHex, slotEntrySize, queueAddresses, queueMaxValues, queueDepth):
     #Find out which of the queues contains the current address.
@@ -368,15 +293,11 @@ def FindTheCommandHere(commandData):
  
 
     if ((key1 in NeoAdminCommands) & (NSID == 0)):
-
         neoCommand=NeoAdminCommands[key1]
-
         additionalString = ProcessNeoAdminCommand(commandData)
 
     if (key1 in NeoAdminVscCommands):
-
         neoCommand=NeoAdminVscCommands[key1]
-
         additionalString = ProcessNeoAdminVscCommand(commandData, neoCommand)
 
     return neoCommand + additionalString
@@ -435,260 +356,110 @@ def ProcessNeoAdminVscCommand(commandData, neoCommand):
             returnString = returnString + '    ' + paramString
     return returnString
 
- def ProcessTheLine(myNewLine, arrayOfCommandData, k, readArray, m, interruptCount, buffer1, buffer2, commandQueues, commandQueueCnt, queueInUse, slot):
-
- 
-
-    sectorSize = 4096   
-
+def ProcessTheLine(myNewLine, arrayOfCommandData, k, readArray, m, interruptCount, buffer1, buffer2, commandQueues, commandQueueCnt, queueInUse, slot):
+    sectorSize = 4096
     arrayOfCommandData[1] = ''
-
-  
-
     commandType = 'IO'
-
     firstHit = myNewLine.find('MRd')
-
     secondHit = myNewLine.find('MWr(32)')
-
     thirdHit = myNewLine.find('CplD')
-
     fourthHit = myNewLine.find('MWr(64)')
-
     fifthHit = myNewLine.find('Upstream')
-
     sixthHit = myNewLine.find('Downstream')
-
     tpLength = 0
-
     secondHit = -1
 
- 
-
- 
-
- 
-
 #    print(myNewLine)
-
     if ((firstHit > -1) | (secondHit > -1) | (thirdHit > -1) | (fourthHit > -1)):
-
- 
-
-        myNewLineSplit = myNewLine.split(',')   
-
+        myNewLineSplit = myNewLine.split(',')
         time = myNewLineSplit[len(myNewLineSplit)-5]
-
         myNewLineSplit[28] = myNewLineSplit[28].replace(':','')
-
         tpLength = int(myNewLineSplit[24], 10)
-
         seqNumber = myNewLineSplit[1]
 
- 
-
- 
-
- 
-
- 
-
         if (firstHit > -1):
-
- 
-
- 
-
             addressForRead = int(myNewLineSplit[28], 16)
-
- 
-
             tagForRead = int(myNewLineSplit[26], 10)
-
             readArray[0]= tagForRead
-
             readArray[1] = addressForRead
 
- 
-
         if ((tpLength == 1) & (secondHit > -1)):           
-
             addressData = myNewLineSplit[len(myNewLineSplit)-1].split()
-
             address =int(myNewLineSplit[28], 16)
-
             highAddress = address & 0xFFFF0000
-
             highTarget = 314156
 
- 
-
             if (highAddress == highTarget):
-
- 
-
                 print(hex(address))
-
                 interruptCount = interruptCount + 1
-
                 m.write('Type 3 ' + str(address) + ' ' + str(interruptCount) + '\n')
-
                 print("Here")
-
                 print(interruptCount)
-
-           
-
-        
-
- 
-
                                 # Memory read to fetch commands, mostly.
 
         if ((tpLength == 16) & (firstHit > -1) & (fifthHit > -1)):
-
             address =(myNewLineSplit[28])
-
             (queueInUse, slot) = FindTheQueueAndSlot(commandQueues, commandQueueCnt, address, (256 * 64), 64)
-
             return queueInUse, slot
-
                                 # Completion that returns command info.
 
         if ((tpLength == 16) & (thirdHit > -1)):
-
             commandData = myNewLineSplit[len(myNewLineSplit)-7].split()
-
 #           print(myNewLineSplit)
-
             currentTag = int(myNewLineSplit[26], 10)
-
- 
-
             commandString = ''
-
-            
-
             commandString = FindTheCommandHere(commandData)
-
- 
-
-           
-
             commandID = 0
 
-                       
-
             if ((commandString != '')):
-
                 lba = commandData[10]
-
                 address =(myNewLineSplit[28])
-
- 
-
                 count = ((int(commandData[12], 16) + 1) & 0x0FFFFFFF)
-
                 m.write('{:10s}'.format(seqNumber) + '{:60s}'.format(commandString) + '{:20s}'.format(time) +  '{:10s}'.format(str(int(slot))) +  '{:10s}'.format(str(queueInUse))  + '{:10s}'.format('Status') + '\n')
 
- 
-
- 
-
         if ((fourthHit > -1) & (fifthHit > -1)):
-
- 
-
             address = myNewLineSplit[28]
-
             address = address.replace(':', '')
-
             address = int(address, 16)
-
             eventString = ''
-
             if ((abs(address - buffer1) < 65536) | (abs(address - buffer2) < 65536)):
-
             #    print('Event or Notification')
-
                 data = myNewLineSplit[len(myNewLineSplit)-7].split()
-
                 timeStamp = (int(data[1], 16)>>6)
-
                 data0 = data[0]
-
                 data1 = data[1]
-
                 OutputEventOrNotification(m, data0, data1, timeStamp, seqNumber, buffer1, buffer2, address, time)
-
                 if (tpLength == 4):
-
-                  
-
                     data0 = data[2]
-
                     data1 = data[3]
-
-                    OutputEventOrNotification(m, data0, data1, timeStamp, seqNumber, buffer1, buffer2, address, time)                   
-
- 
-
-            
-
+                    OutputEventOrNotification(m, data0, data1, timeStamp, seqNumber, buffer1, buffer2, address, time)
         return  queueInUse, slot
-
-       
-
     return queueInUse, slot
 
 def OutputEventOrNotification(m, data0, data1, timeStamp, seqNumber, buffer1, buffer2, address, time):
-
- 
-
     eventString = ''
-
     eventID = int(data1, 16) & 0x3f
-
     if ((abs(address - buffer1) < 65536)):
-
         eventLowNibble = int(data0, 16)>>28
-
         key = eventLowNibble + eventID*10
-
         if (key in eventIDDictionary2):
-
             eventString = eventIDDictionary2[key]
-
         if ((eventID == 11) & (eventLowNibble == 12)):
-
             eventString = 'cEventTypeECU_ReadRetryMcrc'
-
     else:
-
         key = eventID
-
         if (key in eventIDDictionary):
-
             eventString = eventIDDictionary[key]
 
-                    
-
- 
-
     index1 = (address - buffer1)
-
     index2 = (address - buffer2)
 
     if ((index1 < 65536) & (index1 > 0)):
-
         index1 = (address - buffer1)/8
-
         m.write('{:10s}'.format(seqNumber) + '{:100s}'.format('Event    ' + eventString + '    Index  ' + str((int(index1))) + '  Timestamp   ' + str(hex(int(timeStamp)))) + '{:s}'.format(time) + '\n')
 
     if ((index2 < 65536) & (index2 > 0)):
-
         index2 = (address - buffer2)/8
-
         m.write('{:10s}'.format(seqNumber) + '{:100s}'.format('Notification    ' + eventString + '    Index  ' + str((int(index2))) + '  Timestamp   ' + str(hex(int(timeStamp)))) + '{:s}'.format(time) + '\n')
 
 def PairStatusWithCommands(fileOne, fileTwo, m):
@@ -810,272 +581,114 @@ else:
     notificationBuffer = buffer2
 
 j.seek(0)
-
 commandQueues         = [0 for x in range(0, 10)]
-
 commandQueueDepths    = [0 for x in range(0, 10)]
-
 statusQueues          = [0 for x in range(0, 10)]
-
 statusQueueDepths     = [0 for x in range(0, 10)]
 
- 
-
- 
-
- 
-
 ExtractAQueue('CommandFIFO.txt', 512, 64, commandQueues, commandQueueDepths)
-
 ExtractAQueue('Status.txt', 512, 16, statusQueues, statusQueueDepths)
 
- 
-
- 
-
 commandQueueCnt = 0
-
 statusQueueCnt = 0
-
 i = 0
 
- 
-
 for i in commandQueues:
-
     if (i != 0):
-
         commandQueueCnt += 1
 
- 
-
 for i in statusQueues:
-
     if (i != 0):
-
         statusQueueCnt += 1
 
 # Make sure we have the same number of queues.  I saw an error case where I got an extra status queue.
-
 SanityCheckTheQueues(commandQueues, commandQueueDepths, commandQueueCnt,  statusQueues, statusQueueDepths, statusQueueCnt)
-
- 
-
 commandQueueCnt = 0
-
 statusQueueCnt = 0
-
 i = 0
 
- 
-
 for i in commandQueues:
-
     if (i != 0):
-
         commandQueueCnt += 1
 
- 
-
 for i in statusQueues:
-
     if (i != 0):
-
         statusQueueCnt += 1
-
- 
-
-print(commandQueues)       
-
-print(commandQueueCnt)            
-
- 
-
- 
-
+print(commandQueues)
+print(commandQueueCnt)
 print(statusQueues)
-
 print(statusQueueCnt)
 
- 
-
- 
-
- 
-
 print('Notification and Event Buffers')
-
 print(str(hex(int(buffer1))))
-
 print(str(hex(int(buffer2))))
 
- 
-
 m.write('\n\n')
-
- 
-
 m.write('Found   ' +  str(commandQueueCnt) + ' Command Queues \n' )
 
- 
-
 for i in range(0, commandQueueCnt):
-
     m.write(commandQueues[i] + '    ')
 
- 
-
 m.write('\n\n')
-
 m.write('The queue depth may be inaccurate.  It is only correct when the trace contains a queue rollover.  \n\n')
 
 for i in range(0, commandQueueCnt):
-
- 
-
     m.write( ' Max Queue Value = ' + str(commandQueueDepths[i] + 1) + '    ')
 
- 
-
-m.write('\n\n')   
-
- 
-
- 
-
+m.write('\n\n')
 m.write(' Found   ' + str(statusQueueCnt) + ' Status Queues \n')
-
- 
-
 for i in range(0, statusQueueCnt):
-
     m.write(statusQueues[i]  + '    ')
 
- 
-
 m.write('\n\n')
-
 m.write('The queue depth may be inaccurate.  It is only correct when the trace contains a queue rollover.  \n\n')
 
 for i in range(0, statusQueueCnt):
-
     m.write( ' Max Queue Value = ' + str(statusQueueDepths[i] + 1) + '    ')
 
- 
-
 m.write('\n\n')
-
 m.write('  Event Memory Base   ' + str(hex(int(buffer2))) + '        Notification Memory Base    ' +  str(hex(int(buffer1))) + '\n')
-
 m.write('\n')
 
- 
-
- 
-
- 
-
 m.write('{:24s}'.format('Sequence #') + '{:60s}'.format('Command') + '{:20s}'.format('Time') + '{:10s}'.format('Slot') + '{:10s}'.format('Queue') + '{:10s}'.format('Status') +'\n\n\n')
-
- 
-
 ProcessCommandAndStatus(j, k, bufferData, 'Notification.out', commandQueues, commandQueueCnt, statusQueues, statusQueueCnt)
 
- 
-
 #  The first line is not relevent.
-
- 
-
- 
-
 myVar1 = j.readline()
-
 thisLoopCount = 0
 
- 
-
- 
-
 print()
-
 print()
-
 print('Scanning the file for Commands. This can take 5 min. ')
-
- 
 
 j.seek(0)
 
 queueInUse = 0
-
 slot = 0
 
 while (lineLength != 0):
-
 #for pp in range(0,10000000):
-
     commandType = ''
-
     myVar1 = j.readline()
-
     thisLoopCount = thisLoopCount + 1
-
     if ((thisLoopCount % 1000000) == 0):
-
 #    if ((thisLoopCount > 18000000)):
-
         print('Sequence #  ' + str(thisLoopCount))
 
     lineLength = len(myVar1)
-
     arrayOfCommandData[1] =''
 
- 
-
     (xx, yy) = ProcessTheLine(myVar1, arrayOfCommandData, k, readArray, n, interruptCount, eventBuffer, notificationBuffer, commandQueues, commandQueueCnt, queueInUse, slot)
-
     queueInUse = xx
-
-    slot = yy               
-
- 
+    slot = yy
 
     if len(myVar1) == 0:
-
         break
 
- 
-
- 
-
 j.close()
-
- 
-
 k.close()
-
 n.close()
 
- 
-
 # Now we have the commands and status we need to pair them up.
-
-PairStatusWithCommands('Temp.out', 'Status.txt', m)  
-
-m.close()            
-
-    
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
+PairStatusWithCommands('Temp.out', 'Status.txt', m)
+m.close()

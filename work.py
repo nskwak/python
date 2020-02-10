@@ -1,6 +1,149 @@
 #!/usr/bin/python3
 
+#2020/02/10
+#'''
+#####################################################################
+# LeetCode:Easy 9. Palindrome Number
+
+class soluTion(object):
+    def isPalindrome(self, x):
+        xorg = x
+        print(x, xorg)
+        siGned = 0
+        arr = []
+        if (x < 0):
+            x = x * (-1)
+            siGned = 1
+        while True:
+            rem = x % 10
+            arr.append(rem)
+            x = x - rem
+            x /= 10
+            if x == 0:
+                break
+        raTio = len(arr)
+        print(arr, raTio)
+        reTurnVal = 0
+        for i in range(0, raTio):
+            reTurnVal += arr[i] * 10**(raTio - 1 - i)
+
+        if (siGned == 1):
+            reTurnVal *= (-1)
+
+        print("result:", xorg, int(reTurnVal))
+        if (xorg == int(reTurnVal)):
+            return print("Yes, it is Palindrome")
+        else:
+            return print("No, it is NOT Palindrome")
+
+inPut = 123
+a = soluTion()
+a.isPalindrome(inPut)
+
+#####################################################################
+#'''
+
+'''
+#####################################################################
+# LeetCode:Easy 9. Palindrome Number
+
+class soluTion(object):
+    def isPalindrome(self, x):
+        xorg = x
+        print(x, xorg)
+        siGned = 0
+        arr = []
+        if (x < 0):
+            x = x * (-1)
+            siGned = 1
+        while True:
+            rem = x % 10
+            arr.append(rem)
+            x = x - rem
+            x /= 10
+            if x == 0:
+                break
+        raTio = len(arr)
+        print(arr, raTio)
+        reTurnVal = 0
+        for i in range(0, raTio):
+            reTurnVal += arr[i] * 10**(raTio - 1 - i)
+
+        if (siGned == 1):
+            reTurnVal *= (-1)
+
+        print("result:", xorg, int(reTurnVal))
+        if (xorg == int(reTurnVal)):
+            return print("Yes, it is Palindrome")
+        else:
+            return print("No, it is NOT Palindrome")
+
+inPut = 123
+a = soluTion()
+a.isPalindrome(inPut)
+
+#####################################################################
+'''
+
+
+'''
+#####################################################################
+# LeetCode:Easy 7. Reverse Integer
+
+class soluTion(object):
+    def reverseNum(self, x):
+        siGned = 0
+        arr = []
+        if (x < 0):
+            x = x * (-1)
+            siGned = 1
+        while True:
+            rem = x % 10
+            arr.append(rem)
+            x = x - rem
+            x /= 10
+            if x == 0:
+                break
+        raTio = len(arr)
+        print(arr, raTio)
+        reTurnVal = 0
+        for i in range(0, raTio):
+            reTurnVal += arr[i] * 10**(raTio - 1 - i)
+
+        if (siGned == 1):
+            reTurnVal *= (-1)
+
+        return reTurnVal
+
+a = soluTion()
+rst = a.reverseNum(-123)
+print(rst)
+
+
+#####################################################################
+'''
+
+'''
+#####################################################################
+# LeetCode:Easy 1. Two Sum
+
+class soluTion(object):
+    def twoSum(self, nums, target):
+        for i in range(0, len(nums)):
+            for j in range(i + 1, len(nums)):
+                if ((nums[i] + nums[j]) == target):
+                    return i, j
+
+a_num = [2, 7, 11, 15]
+target = 9
+a = soluTion()
+rst = a.twoSum(a_num, target)
+print(rst)
+#####################################################################
+'''
+
 #2020/02/09
+'''
 #####################################################################
 # Jon's python coding question
 inputfile1 = open("a.csv", "r")
@@ -12,75 +155,38 @@ pass_cnt = 0
 fail_cnt = 0
 linelength = 1
 testcount = 0
-loopcnt = 1
-print('LOOPCNT = ', loopcnt)
 
-'''
-while(linelength != 0):
-    myVar1 = inputfile1.readline()
-    linelength = len(myVar1)
-    if (linelength == 0):
-        break
-    var_split=myVar1.split(',')
-    a_out = {var_split[0]:pass_fail}
-    print(a_out)
-    print("****************************")
-'''
 while (linelength != 0):
     myVar1 = inputfile1.readline()
     linelength = len(myVar1)
-    print("KK_a_out #1  ", a_out)
     if (linelength == 0):
         break
     var_split = myVar1.split(',')
 
-    if var_split[0] in a_out:
-        print("exist key", var_split[0])
-    else:
-        print("new key", var_split[0])
+    if not var_split[0] in a_out:
         pass_fail = {'pass': 0, 'fail': 0}
         b = {var_split[0]:pass_fail}
         a_out.update(b)
-        #print(a_out)
 
     if (var_split[2] == 'pass\n'):
-        print("pass = ", var_split[0])
         pass_cnt = 1
     else:
-        print("fail = ", var_split[0])
         fail_cnt = 1
-    print(pass_cnt, fail_cnt)
     a_out[var_split[0]]['pass'] = a_out[var_split[0]]['pass'] + pass_cnt
     a_out[var_split[0]]['fail'] = a_out[var_split[0]]['fail'] + fail_cnt
 
-    #a_out = {var_split[0]: pass_fail}
-    #a_out[var_split[0]] = pass_fail
-    print("KK_a_out #2  ", a_out)
     pass_cnt = 0
     fail_cnt = 0
-    # pass_fail = {'pass': 0, 'fail': 0}
-    print("================================")
-    loopcnt = loopcnt + 1
-    print('LOOPCNT = ', loopcnt)
 
-print("*****************************************************")
-print("*****************************************************")
-print("final a_out", a_out)
-print("*****************************************************")
-print("*****************************************************")
-#####################################################################
 for i, j in a_out.items():
-    print("key is ", i)
-    print("items is ", j)
     a = [0,0]
     cnt = 0
     for k, m in j.items():
-        print('k=', k)
-        print('m=', m)
         a[cnt] = m
         cnt += 1
     testresult.write(i + ' ' + 'pass=' + str(a[1]) + ' fail=' + str(a[0]) + '\n')
-
+#####################################################################
+'''
 
 '''
 #####################################################################
