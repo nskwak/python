@@ -1,4 +1,4 @@
-cli pass=3 fail=1
 gra pass=2 fail=2
-ung pass=3 fail=1
 fio pass=2 fail=2
+ung pass=1 fail=3
+cli pass=1 fail=3
