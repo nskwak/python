@@ -1,23 +1,25 @@
 #!/usr/bin/python3
-'''
+#'''
 #####################################################################
-# LeetCode:Easy 20. Valid Parentheses
-class soluTion(object):
-    #1st solution
-    def isValid(self, strs):
+# function: LeetCode:Easy 509. Fibonacci Number
+def fibonacci(num):
+    if(num == 0):
+        return 0
+    elif(num == 1):
+        return 1
+    else:
+        return(fibonacci(num-1) + fibonacci(num-2))
 
-stRings = ['()', '([', '[()]', '[]']
-a=soluTion()
-rst=a.isValid(stRings)
-print('result:', rst)
+number = 7
+print("fibonacci of number ", number, " is ", fibonacci(number))
 #####################################################################
-'''
+#'''
 
 
 #2020/02/11
-#'''
+'''
 #####################################################################
-# LeetCode:Easy 20. Valid Parentheses
+# function: LeetCode:Easy 20. Valid Parentheses
 class soluTion(object):
     #1st solution
     def isValid(self, strs):
@@ -27,13 +29,13 @@ a=soluTion()
 rst=a.isValid(stRings)
 print('result:', rst)
 #####################################################################
-#'''
+'''
 
 
 #2020/02/10
 '''
 #####################################################################
-# Jon's python coding question - try again...
+# function: Jon's python coding question - try again...
 infile = open('a.csv', "r")
 outfile = open('a1.out', "w")
 
@@ -83,7 +85,7 @@ for i, j in a_out.items():
 
 '''
 #####################################################################
-# LeetCode:Easy 20. Valid Parentheses
+# function: LeetCode:Easy 20. Valid Parentheses
 class soluTion(object):
     def isValid(self, s):
         """
@@ -123,7 +125,7 @@ print('result:', rst)
 
 '''
 #####################################################################
-# test for simple function
+# function: test for simple function
 stRings = ['abcde', 'abdde', 'abxxxx', 'abcee']
 for i, char in enumerate(stRings[0]):
     print(i, char)
@@ -143,7 +145,7 @@ for i, j in a_dict.items():
 
 '''
 #####################################################################
-# LeetCode:Easy 14. Longest Common Prefix
+# function: LeetCode:Easy 14. Longest Common Prefix
 
 class soluTion(object):
     #1st solution
@@ -181,7 +183,7 @@ print('result:', rst)
 
 '''
 #####################################################################
-# LeetCode:Easy 13. Roman to Integer
+# function: LeetCode:Easy 13. Roman to Integer
 
 class soluTion(object):
     def romanToint(self, x):
@@ -226,7 +228,7 @@ print(rst)
 
 '''
 #####################################################################
-# LeetCode:Easy 9. Palindrome Number
+# function: LeetCode:Easy 9. Palindrome Number
 
 class soluTion(object):
     def isPalindrome(self, x):
@@ -269,7 +271,7 @@ a.isPalindrome(inPut)
 
 '''
 #####################################################################
-# LeetCode:Easy 7. Reverse Integer
+# function: LeetCode:Easy 7. Reverse Integer
 
 class soluTion(object):
     def reverseNum(self, x):
@@ -306,7 +308,7 @@ print(rst)
 
 '''
 #####################################################################
-# LeetCode:Easy 1. Two Sum
+# function: LeetCode:Easy 1. Two Sum
 
 class soluTion(object):
     def twoSum(self, nums, target):
@@ -326,7 +328,7 @@ print(rst)
 #2020/02/09
 '''
 #####################################################################
-# Jon's python coding question
+# function: Jon's python coding question
 inputfile1 = open("a.csv", "r")
 testresult = open("a1.out", "w")
 
@@ -371,6 +373,7 @@ for i, j in a_out.items():
 
 '''
 #####################################################################
+# function: 
 a = {'city': 'San Francisco', 'name': 'Sam', "food": "shrimps", "aaaa": "cccc"}
 for i, j in a.items():
     print("key is: %s" % i)
@@ -381,7 +384,7 @@ for i, j in a.items():
 
 '''
 #####################################################################
-[example for dictionary]
+# function: [example for dictionary]
 1. add
 a={'av':'db', 'a':'b'}
 a['aa']=;'cc'
@@ -405,7 +408,7 @@ num_hit=myVal1.find('aaa') => number of hit column
 
 '''
 #####################################################################
-# dictionary in dictionary
+# function: dictionary in dictionary
 a={}
 b={}
 b={1:0}     #pass:fail
@@ -443,7 +446,7 @@ print(a)
 
 '''
 #####################################################################
-# Jon's python coding question
+# function: Jon's python coding question
 #a={'tester':'fio', 'file':'a.png', 'result':'pass'}
 #b={'tester':'gra', 'file':'b.png', 'result':'fail'}
 #c={'tester':'ung', 'file':'c.png', 'result':'fail'}
@@ -499,20 +502,6 @@ print("end of file")
 '''
 
 
-'''
-#####################################################
-    while (lineLength != 0):
-
-#    for pp in range(0,4000000):
-
-        myVar1 = j.readline()
-        lineLength = len(myVar1)
-        if (lineLength == 0):
-                        break
-#####################################################################
-'''
-
-
 
 
 
@@ -522,6 +511,7 @@ print("end of file")
 #2020/0208
 ##########################################################
 ##########################################################
+# function: ParseArgs()
 import argparse
 import sys
 
