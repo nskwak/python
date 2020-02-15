@@ -1,7 +1,151 @@
-#!/usr/bin/python3
+#!/usr/bin/python2.7
 #'''
 #####################################################################
-# function: LeetCode:Easy 509. Fibonacci Number
+# function: LeetCode:Easy 26. Remove Duplicates from Sorted Array
+# Input: [1,1,2]
+# Output: [1,2]
+# Input: [0,0,1,1,1,2,2,3,3,4]
+# Output: [0,1,2,3,4]
+
+class soluTion(object):
+    def removeduplicate(self, number):
+        print(number)
+        delNo =[]
+        LenGth = len(number)
+        i = 0;
+        j = 1
+        while (j < LenGth):
+            if number[i] == number[j]:
+                j += 1
+                delNo.append(number[i])
+            else:
+                i += 1
+                number[i] = number[j]
+                j += 1
+                delNo.append(number[i])
+        print(delNo)
+        return i + 1
+
+a=soluTion()
+in_num1 = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+rst = a.removeduplicate(in_num1)
+print(rst)
+#'''
+
+
+
+'''
+#####################################################################
+# function: LeetCode:Easy 189. Rotate Array
+# Input: [1,2,3,4,5,6,7] and k = 3
+# Output: [5,6,7,1,2,3,4]
+# Input: [-1,-100,3,99] and k = 2
+# Output: [3,99,-1,-100]
+
+## for reference, 
+with open("rotatearray.csv", "r") as inputf1:
+    myVar = inputf1.readlines()
+firstLine = myVar[0]
+firstLine = myVar[0].rstrip()
+firstlineSplit = firstLine.split(',')
+a = int(firstlineSplit[0])
+b = int(firstlineSplit[1])
+secondLine = myVar[1].rstrip()
+
+print("============================================")
+class soluTion(object):
+    def rotatearray(self, number, target):
+        print(number)
+        print("shift right %d " % target)
+        for k in range(target):
+            LenGth = len(number)
+            tmp = number[LenGth-1]
+            for i in range(LenGth):
+                number[LenGth-1-i] = number[LenGth-2-i]
+            number[0] = tmp
+        return (number)
+
+a=soluTion()
+in_num1 = [11,22,33,44,55,66,77]
+target = 3
+rst = a.rotatearray(in_num1, target)
+print(rst)
+
+in_num2 = [-1,-100,3,99]
+target = 2
+rst = a.rotatearray(in_num2, target)
+print(rst)
+'''
+
+
+'''
+#####################################################################
+# function: LeetCode:Easy 346. Moving Average from Data Stream
+# 1 -> 1
+# 10-> (1+10)/2
+# 3 -> (1+10+3)/3
+# 5 -> (1+10+3+5)/3
+class   soluTion(object):
+    def __init__(self, size):
+        self.size = size
+        self.array = []
+        self.sum = 0
+
+    def next(self, val):
+        self.array.append(val)
+        arraylen = len(self.array)
+
+        self.sum += val
+        if arraylen < self.size:
+            avg = self.sum / arraylen
+        else:
+            avg = self.sum / self.size
+
+        print(self.array, avg)
+
+##### main routine #####
+a = soluTion(3)
+
+a.next(5)
+a.next(5)
+a.next(5)
+a.next(5)
+a.next(5)
+a.next(5)
+
+rw = ['a']
+cmdInfo = ['b', 'c', 'd', 'e']
+rw.append(cmdInfo)
+
+print(rw)
+
+for argu in cmdInfo:
+    print(argu)
+#####################################################################
+'''
+
+'''
+#####################################################################
+# function: linux command line execution by using subprocess
+import subprocess
+
+cmdInfo = ['ls', '-l']
+proc = subprocess.Popen(cmdInfo)
+proc.wait()
+
+cmdInfo = ['./nvmestress.exe', '-ioex=fill', '-slba=%d' % 0, '-nlb=%d' % 65536, '-dev=/dev/nvme0n1']
+print(cmdInfo)
+pro = subprocess.Popen(cmdInfo)
+pro.wait()
+del pro
+
+#####################################################################
+'''
+
+
+'''
+#####################################################################
+# function: LeetCode:Easy 509. Fibonacci Number, recursion, recursive calling
 def fibonacci(num):
     if(num == 0):
         return 0
@@ -13,7 +157,7 @@ def fibonacci(num):
 number = 7
 print("fibonacci of number ", number, " is ", fibonacci(number))
 #####################################################################
-#'''
+'''
 
 
 #2020/02/11
