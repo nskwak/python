@@ -1,6 +1,63 @@
 #!/usr/bin/python2.7
 #'''
 #####################################################################
+# function: swap array
+# Input: [1,2,3,4]
+# Output: [4,3,2,1]
+
+class soluTion(object):
+    def swaparray(self, number):
+        result = []
+        LenGth = len(number)
+        for i in range(LenGth):
+            result = number[i]
+            result[i].
+            result[i].append()
+
+        while (j < LenGth):
+            if number[i] != number[j]:
+                j += 1
+            else:
+                i += 1
+        return i + 1
+
+a=soluTion()
+in_num1 = [1,2,3,4]
+rst = a.removeduplicate(in_num1)
+print(rst)
+#'''
+
+
+'''
+#####################################################################
+# function: find duplicate
+# Input: [1,1,2]
+# Output: [1,2]
+# Input: [0,0,1,1,1,2,2,3,3,4]
+# Output: [0,1,2,3,4]
+
+class soluTion(object):
+    def findduplicate(self, number):
+        print(number)
+        delNo =[]
+        LenGth = len(number)
+        i = 0;
+        j = 1
+        while (j < LenGth):
+            if number[i] != number[j]:
+                j += 1
+            else:
+                i += 1
+        return i + 1
+
+a=soluTion()
+in_num1 = [0, 1, 2, 1, 0, 2, 2, 3, 3, 4]
+rst = a.removeduplicate(in_num1)
+print(rst)
+'''
+
+'''
+#####################################################################
 # function: LeetCode:Easy 26. Remove Duplicates from Sorted Array
 # Input: [1,1,2]
 # Output: [1,2]
@@ -30,7 +87,7 @@ a=soluTion()
 in_num1 = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
 rst = a.removeduplicate(in_num1)
 print(rst)
-#'''
+'''
 
 
 
