@@ -5,6 +5,66 @@
 # function: sort and searching
 # Cracking code page 66, 9.3
 # find number in sorted array
+# input = [[1,2,3,4,5], [6,7,8,9,10], [11,12,13,14,15], [16, 17,18,19,20]]
+# find '5' -> output should be True
+#####################################################################
+def searchElem(arrayA, key, M, N):
+    roW = 0
+    coL = N - 1
+    print(arrayA[roW][coL])
+    while (roW < M and coL >= 0):
+        if (arrayA[roW][coL] == key):
+            return True
+        elif (arrayA[roW][coL] > key):
+            coL = coL - 1
+        else:
+            roW = roW + 1
+    return -1
+
+a = [[1,2,3,4,5], [6,7,8,9,10], [11,12,13,14,15], [16, 17,18,19,20]]
+row = len(a)      # M = 3
+col = len(a[0])   # N = 5
+rst = searchElem(a, 9, row, col)
+print(rst)
+
+#####################################################################
+#'''
+
+'''
+#####################################################################
+# function: sort and searching
+# Cracking code page 66, 9.3
+# find number in sorted array
+# input = [1, 3, 4, 5, 7, 10, 14, 15, 16, 19, 20, 25], find '5' -> output should be 3
+#####################################################################
+def searchString(arrayA, key):
+    lenGth = len(arrayA)
+    start = 0
+    end = lenGth - 1
+    print(lenGth)
+
+    while (start <= end):
+        m = (start + end) / 2
+        if (arrayA[start] == key):
+            return start
+        #if (arrayA[m] == key):
+        #    return m
+        #while()
+        start = start + 1
+    return -1
+#    0       1    2    3     4     5     6         7   8      9   10
+a = ['', 'ball', '', 'ca', 'da', 'er', 'ft', 'gallse', '', 'hed', '']
+rst = searchString(a, 'ball')
+print(rst)
+
+#####################################################################
+'''
+
+'''
+#####################################################################
+# function: sort and searching
+# Cracking code page 66, 9.3
+# find number in sorted array
 # input = [1, 3, 4, 5, 7, 10, 14, 15, 16, 19, 20, 25], find '5' -> output should be 3
 #####################################################################
 def searchElement(arrayA, key):
@@ -31,7 +91,7 @@ for i in range(0,30):
     else:
         print("%2d is located in a[%d]" % (i, rst))
 #####################################################################
-#'''
+'''
 
 
 '''
