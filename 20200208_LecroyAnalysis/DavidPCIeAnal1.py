@@ -530,12 +530,15 @@ def PairStatusWithCommands(fileOne, fileTwo, m):
 
     return  
 
+<<<<<<< HEAD
+################################ main loop ########################################
+=======
 #############################################################################################
 ####################################### main routine ########################################
 #############################################################################################
+>>>>>>> 6a8415d30d9920828dba9ee36b9c9468aec0992b
 import binascii
 import math
-
 inputFile1 = "Ross2.csv"
 outputFile = "Notification.out"
 outputFile1 = "Ross2.out"
@@ -559,6 +562,10 @@ lastCommandRW = 'false'
 commandFound = 'false'
 dataSearchNext=  'false'
 addedPrintString = ''
+<<<<<<< HEAD
+
+=======
+>>>>>>> 6a8415d30d9920828dba9ee36b9c9468aec0992b
 interruptCount = 0
 lineLength = 10
 bufferData = 0
@@ -572,7 +579,10 @@ print()
 #  The result of this is a file Notification.out with the notifications decoded plus the buffer start for event buffer and notification buffer.
 (buffer1, buffer2) = ProcessTheNotificationAndEventBuffers(j, k, bufferData, 'Notification.out')
 (base, depth) = ProcessTheCommandFIFO()
+<<<<<<< HEAD
+=======
 
+>>>>>>> 6a8415d30d9920828dba9ee36b9c9468aec0992b
 if (buffer1 > buffer2):
     eventBuffer = buffer2
     notificationBuffer = buffer1
@@ -581,6 +591,10 @@ else:
     notificationBuffer = buffer2
 
 j.seek(0)
+<<<<<<< HEAD
+
+=======
+>>>>>>> 6a8415d30d9920828dba9ee36b9c9468aec0992b
 commandQueues         = [0 for x in range(0, 10)]
 commandQueueDepths    = [0 for x in range(0, 10)]
 statusQueues          = [0 for x in range(0, 10)]
@@ -592,7 +606,10 @@ ExtractAQueue('Status.txt', 512, 16, statusQueues, statusQueueDepths)
 commandQueueCnt = 0
 statusQueueCnt = 0
 i = 0
+<<<<<<< HEAD
+=======
 
+>>>>>>> 6a8415d30d9920828dba9ee36b9c9468aec0992b
 for i in commandQueues:
     if (i != 0):
         commandQueueCnt += 1
@@ -603,6 +620,10 @@ for i in statusQueues:
 
 # Make sure we have the same number of queues.  I saw an error case where I got an extra status queue.
 SanityCheckTheQueues(commandQueues, commandQueueDepths, commandQueueCnt,  statusQueues, statusQueueDepths, statusQueueCnt)
+<<<<<<< HEAD
+
+=======
+>>>>>>> 6a8415d30d9920828dba9ee36b9c9468aec0992b
 commandQueueCnt = 0
 statusQueueCnt = 0
 i = 0
@@ -614,7 +635,12 @@ for i in commandQueues:
 for i in statusQueues:
     if (i != 0):
         statusQueueCnt += 1
+<<<<<<< HEAD
+
+print(commandQueues)       
+=======
 print(commandQueues)
+>>>>>>> 6a8415d30d9920828dba9ee36b9c9468aec0992b
 print(commandQueueCnt)
 print(statusQueues)
 print(statusQueueCnt)
