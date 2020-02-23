@@ -1,5 +1,594 @@
 #!/usr/bin/python2.7
+
 #'''
+#####################################################################
+# function: sort and searching
+# Cracking code page 66, 9.3
+# Given a sorted array of n integers that has been rotated an unknown number of times,
+# give an O(log n) algorithm that finds an element in the array. you may assume that
+# the array was originally sorted in increasing order.
+# input = [15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10,14], find '5' -> output should be 8
+#####################################################################
+#?????
+def searchElement(arrayA, arrayB, lenA, lenB):
+    k = lenA + lenB - 1
+    i = lenA - 1
+    j = lenB - 1
+
+    for ii in range(i,k):
+        arrayA.append(0)
+
+    while((i >= 0) and (j >= 0)):
+        if(arrayA[i] > arrayB[j]):
+            arrayA[k] = arrayA[i]
+            k = k - 1
+            i = i - 1
+        else:
+            arrayA[k] = arrayB[j]
+            k = k - 1
+            j = j - 1
+    return arrayA
+
+a = [15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10,14]
+
+rst = searchElement(a, 5)
+print(rst)
+
+#####################################################################
+#'''
+
+
+'''
+#####################################################################
+# function: sort and searching
+# Cracking code page 66, 9.1
+# you are given two sorted array, A and B, and A has a large enough buffer at the end to hold B.
+# Write a method to merge B into A in sorted order
+#####################################################################
+
+def mergeFunc(arrayA, arrayB, lenA, lenB):
+    k = lenA + lenB - 1
+    i = lenA - 1
+    j = lenB - 1
+
+    for ii in range(i,k):
+        arrayA.append(0)
+
+    while((i >= 0) and (j >= 0)):
+        if(arrayA[i] > arrayB[j]):
+            arrayA[k] = arrayA[i]
+            k = k - 1
+            i = i - 1
+        else:
+            arrayA[k] = arrayB[j]
+            k = k - 1
+            j = j - 1
+    return arrayA
+
+a = [1, 12, 13, 14, 17, 28, 110]
+b = [2, 23]
+lenGA = len(a)
+lenGB = len(b)
+
+rst = mergeFunc(a, b, lenGA, lenGB)
+print(rst)
+
+#####################################################################
+'''
+
+'''
+#####################################################################
+# function: bit maipulation
+# Cracking code page 58, 5.6
+# problem 1) input: 31, 14 -> output: 2
+# problem 2) b0 and b1 swapped, b2 and b3 are swapped
+#####################################################################
+
+def countXorValue(in_num):
+    count = 0
+    while(in_num):
+        count += in_num & 1
+        in_num >>= 1
+    return count
+
+def swapbit(x):
+    return (((x & 0xaaaaaaaa) >> 1) | ((x & 0x55555555) << 1))
+
+a = 31
+b = 14
+
+print(countXorValue(a^b))
+
+c = 0x3
+d = 0x2
+print(c|d)
+print(c&d)
+
+e = 0x11111111
+print(swapbit(e), hex(swapbit(e)))
+#####################################################################
+'''
+
+
+'''
+#####################################################################
+# function: bit maipulation
+# Cracking code page 58, 5.5
+# input: 31, 14 -> output: 2
+#####################################################################
+
+def countXorValue(in_num):
+    count = 0
+    while(in_num):
+        count += in_num & 1
+        in_num >>= 1
+    return count
+a = 31
+b = 14
+
+print(countXorValue(a^b))
+#####################################################################
+'''
+
+'''
+#####################################################################
+# function: bit maipulation
+# Cracking code page 57, 5.1
+# a)  N = 1024 (10000000000),
+#     M = 19 (10011),
+#     i = 2, j = 6
+#     Output : 1100 (10001001100)
+# b)  N = 1201 (10010110001)
+#     M = 8 (1000)
+#     i = 3, j = 6
+#     Output: 1217 (10011000001)
+#####################################################################
+
+N = 0b10010110001       #1201
+M = 0b1000              #8
+i = 3
+j = 6
+
+print("1. N = ", N, bin(N))
+capture_mask = (1 << i) - 1         #i = 3 -> capture_mask = 7 = 0b111
+captured_bit = N & capture_mask     #captured_bit = 001
+print("2. N = ", captured_bit, bin(captured_bit))
+
+clear_mask = -1 << (j+1)            #j = 6 -> clear_mask =
+cleared_bit = N & clear_mask        # N & 0000000
+print("3. N = ", cleared_bit, bin(cleared_bit))
+
+M <<= i
+cleared_bit |= M
+print("4. N | (M<<i) ", cleared_bit, bin(cleared_bit))
+
+result = cleared_bit | captured_bit
+print("5. N | captured_bit(& 111) ", result, bin(result))
+#####################################################################
+'''
+
+'''
+#####################################################################
+# function: given sorted(increasing order) array, write an algorithm
+# to create binary tree with minimal height
+# BST : Binary Search Tree
+# Cracking code page 54, 4.3
+#            4
+#      2           6
+#   1     3     5     7
+# 4 - 2 - 1 - 3 - 6 - 5 - 7
+class Node:
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+
+def sortedArrayToBST(arr):
+    if not arr:
+        return None
+    mid = len(arr) /2
+    root = Node(arr[mid])
+    print(arr[mid])
+    root.left = sortedArrayToBST(arr[:mid])
+    root.right = sortedArrayToBST(arr[mid+1:])
+    return root
+
+def preOrder(node):
+    if not node:
+        return
+    print node.data
+    preOrder(node.left)
+    preOrder(node.right)
+
+# main routine
+ArrayIn = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+#ArrayIn = [1, 2, 3, 4, 5, 6, 7]
+#ArrayIn = [1, 2, 3, 4, 5, 6]
+#ArrayIn = [1, 2, 3]
+
+print("============================")
+root = sortedArrayToBST(ArrayIn)
+print("============================")
+preOrder(root)
+
+#####################################################################
+'''
+
+'''
+#####################################################################
+# function: tree is balanced or not -#2
+# Cracking code page 54, 4.1
+#
+class Node:
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+
+def maxDepth(root):
+    if root is None:
+        return 0
+    return 1 + max(maxDepth(root.left), maxDepth(root.right))
+
+def minDepth(root):
+    if root is None:
+        return 0
+    return 1 + min(minDepth(root.left), minDepth(root.right))
+
+def isBalanced(root):
+    return (maxDepth(root) - minDepth(root) < 1)
+
+# main routine
+root = Node(1)
+#root.left = Node(2)
+#root.right = Node(3)
+#root.left.left = Node(4)
+#root.left.right = Node(5)
+#root.left.left.left = Node(4)
+#root.left.left.right = Node(4)
+print("minDepth = ", minDepth(root))
+print("maxDepth = ", maxDepth(root))
+
+print("isBalanced = ", isBalanced(root))
+#####################################################################
+'''
+
+
+'''
+#####################################################################
+# function: tree is balanced or not -#2
+# Cracking code page 54, 4.1
+#
+class Node:
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+
+def maxDepth(root):
+    if root is None:
+        return 0
+    return 1 + max(maxDepth(root.left), maxDepth(root.right))
+
+def minDepth(root):
+    if root is None:
+        return 0
+    return 1 + min(minDepth(root.left), minDepth(root.right))
+
+def isBalanced(root):
+    return (maxDepth(root) - minDepth(root) < 1)
+
+# main routine
+root = Node(1)
+#root.left = Node(2)
+#root.right = Node(3)
+#root.left.left = Node(4)
+#root.left.right = Node(5)
+#root.left.left.left = Node(4)
+#root.left.left.right = Node(4)
+print("minDepth = ", minDepth(root))
+print("maxDepth = ", maxDepth(root))
+
+print("isBalanced = ", isBalanced(root))
+#####################################################################
+'''
+
+
+'''
+#####################################################################
+# function: Find Minimum Depth of a Binary Tree -#1
+# https://www.geeksforgeeks.org/find-minimum-depth-of-a-binary-tree/
+#
+class Node:
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+
+
+def minDepth(root):
+    # Corner Case.Should never be hit unless the code is
+    # called on root = NULL
+    if root is None:
+        return 0
+
+        # Base Case : Leaf node.This acoounts for height = 1
+    if root.left is None and root.right is None:
+        return 1
+
+    # If left subtree is Null, recur for right subtree
+    if root.left is None:
+        return minDepth(root.right) + 1
+
+    # If right subtree is Null , recur for left subtree
+    if root.right is None:
+        return minDepth(root.left) + 1
+
+    return min(minDepth(root.left), minDepth(root.right)) + 1
+
+
+# Driver Program
+root = Node(1)
+#root.left = Node(2)
+#root.right = Node(3)
+#root.left.left = Node(4)
+#root.left.right = Node(5)
+print minDepth(root)
+#####################################################################
+'''
+
+'''
+#####################################################################
+# function: lambda
+x = lambda a : a+10
+print(x(5))
+#####################################################################
+'''
+
+'''
+#####################################################################
+# function: find how many same character in array.
+class soluTion(object):
+    def searchDuplicate(self, inputCharArr):
+        lenGth = len(inputCharArr)
+        res = []
+        resdup ={}
+        for inp in inputCharArr:
+            if inp not in res:
+                res.append(inp)
+            else:
+                if inp not in resdup:
+                    tmp = {inp : 1}
+                    resdup.update(tmp)
+                else:
+                    resdup[inp] += 1
+        return resdup
+
+in_arr = ['a', 'b', 'c', 'd', 'e', 'a', 'a', 'b', 'e']
+a = soluTion()
+print(in_arr)
+rst = a.searchDuplicate(in_arr)
+print(rst)
+
+#####################################################################
+'''
+
+'''
+#####################################################################
+# function: sort array
+# Input : [1, 4, 45, 6, 10, -8]
+# Output: [-8, 1, 4, 6, 10, 45]
+
+class soluTion(object):
+    def sortArray(self, number):
+        LenGth = len(number)
+        for i in range(0, LenGth):
+            for j in range(0, i):
+                print("j=", j, " i=", i, number[j], number[i])
+                if number[j] > number[i]:
+                    tmp = number[j]
+                    number[j] = number[i]
+                    number[i] = tmp
+            print("================", i, number)
+        return number
+
+a=soluTion()
+in_num1 = [1, 4, 45, 6, 10, -8]
+print("input  : ", in_num1)
+rst = a.sortArray(in_num1)
+print("output : ", rst)
+'''
+
+'''
+#####################################################################
+# function: LeetCode:Easy 1. Two Sum
+# Input: [2, 3, 7, 11, 13], target=9
+# Output: [0, 2]
+
+class soluTion(object):
+    def findTwoSum(self, number, tgt):
+        print(number)
+        LenGth = len(number)
+        tmpresult = []
+        result = []
+
+        for i in range(0, LenGth):
+            for j in range(1, LenGth):
+                if (number[i] + number[j] == target):
+                    tmpresult.append(i)
+                    tmpresult.append(j)
+                    result.append(tmpresult)
+                    tmpresult =[]
+        return result
+
+a=soluTion()
+#in_num1 = [2, 3, 7, 11, 13]
+#target = 9
+in_num1 = [1, 4, 45, 6, 10, -8]
+target = 16
+
+rst = a.findTwoSum(in_num1, target)
+print(rst)
+'''
+
+
+'''
+#####################################################################
+def appendFile(text, filename):
+    with open(filename, "a") as f:
+        f.write(text)
+        f.write("\n")
+
+infile = "a2"+".out"
+appendFile("hahaha", infile)
+#####################################################################
+'''
+
+
+
+'''
+#####################################################################
+# function: swap array
+# Input: [1,2,3,4]
+# Output: [4,3,2,1]
+
+class soluTion(object):
+    def swaparray(self, number):
+        print(number)
+        LenGth = len(number)
+        for i in range(LenGth/2):
+            tmp = number[i]
+            number[i] = number[LenGth-1-i]
+            number[LenGth-1-i] = tmp
+            #print(i, number[i], LenGth-1-i, number[LenGth-1-i])
+        return number
+
+a=soluTion()
+in_num1 = [1,2,3,4]
+rst = a.swaparray(in_num1)
+print(rst)
+'''
+
+'''
+#####################################################################
+# function: find second duplicate
+# Input:  ['a', 'b', 'c', 'a', 'b', 'd'] -> a
+
+class soluTion(object):
+    def find2ndDuplicate(self, inPut):
+        if not inPut:
+            return "no inPut"
+        res = []
+        dupres = []
+        k = 0
+        for i in inPut:
+            #print(i)
+            if i not in res:
+                res.append(i)
+            else:
+                dupres.append(i)
+                #break
+        return dupres[1]
+
+#inPutVar = []
+inPutVar = ['a', 'b', 'c', 'a', 'b', 'd']
+a = soluTion()
+print("input  ", inPutVar)
+rst = a.find2ndDuplicate(inPutVar)
+print("output ", rst)
+'''
+
+
+
+'''
+#####################################################################
+# function: find first duplicate
+# Input:  ['a', 'b', 'c', 'a', 'b', 'd'] -> a
+
+class soluTion(object):
+    def find1stduplicate(self, inPut):
+        res = []
+        dupres = []
+        k = 0
+        for i in inPut:
+            #print(i)
+            if i not in res:
+                res.append(i)
+            else:
+                dupres.append(i)
+                break
+        return dupres[0]
+
+inPutVar = ['a', 'b', 'c', 'a', 'b', 'd']
+a = soluTion()
+print("input  ", inPutVar)
+rst = a.find1stduplicate(inPutVar)
+print("output ", rst)
+'''
+
+
+'''
+#####################################################################
+# function: delete duplicate in string
+# Input:  ("abcabc") -> Output: ('a', 'b', 'c')
+# convert tuple to list because string needs to be converted to char
+# list = list(tuple), tuple = tuple(list)
+# list to dictionary
+# 1) res_dct = {lst[i]: lst[i + 1] for i in range(0, len(lst), 2)}
+# 2) it = iter(lst)
+#    res_dct = dict(zip(it, it))
+
+class soluTion(object):
+    def deleteduplicate(self, inPut):
+        res = []
+        for i in inPut:
+            if i not in res:
+                res.append(i)
+        res = tuple(res)
+        return res
+
+a=soluTion()
+inPutVar = ("abcabc")
+print("input  ", inPutVar)
+tmp = list(inPutVar)
+inPutVar = tmp
+rst = a.deleteduplicate(inPutVar)
+print("output ", rst)
+'''
+
+'''
+#####################################################################
+# function: delete duplicate
+# Input: ['a', 'b', 'c', 'a', 'b', 'c'] -> Output: ['a', 'b', 'c']
+# Input: [1, 3, 5, 6, 3, 5] -> Output: [1, 3, 5, 6]
+
+class soluTion(object):
+    def deleteduplicate(self, inPut):
+        res = []
+        for i in inPut:
+            if i not in res:
+                res.append(i)
+        return res
+
+a=soluTion()
+inPutVar = ['a', 'b', 'c', 'a', 'b', 'c']
+#inPutVar = [1, 3, 5, 6, 3, 5]
+print("input  ", inPutVar)
+rst = a.deleteduplicate(inPutVar)
+print("output ", rst)
+'''
+
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
+# after meeting with SM Kang 2/15/2020
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
+
+'''
 #####################################################################
 # function: swap array
 # Input: [1,2,3,4]
@@ -25,40 +614,12 @@ a=soluTion()
 in_num1 = [1,2,3,4]
 rst = a.removeduplicate(in_num1)
 print(rst)
-#'''
+'''
 
 
 '''
 #####################################################################
-# function: find duplicate
-# Input: [1,1,2]
-# Output: [1,2]
-# Input: [0,0,1,1,1,2,2,3,3,4]
-# Output: [0,1,2,3,4]
-
-class soluTion(object):
-    def findduplicate(self, number):
-        print(number)
-        delNo =[]
-        LenGth = len(number)
-        i = 0;
-        j = 1
-        while (j < LenGth):
-            if number[i] != number[j]:
-                j += 1
-            else:
-                i += 1
-        return i + 1
-
-a=soluTion()
-in_num1 = [0, 1, 2, 1, 0, 2, 2, 3, 3, 4]
-rst = a.removeduplicate(in_num1)
-print(rst)
-'''
-
-'''
-#####################################################################
-# function: LeetCode:Easy 26. Remove Duplicates from Sorted Array
+# function: LeetCode:Easy 26. return number of array after removing Duplicates from Sorted Array
 # Input: [1,1,2]
 # Output: [1,2]
 # Input: [0,0,1,1,1,2,2,3,3,4]
@@ -67,20 +628,20 @@ print(rst)
 class soluTion(object):
     def removeduplicate(self, number):
         print(number)
-        delNo =[]
+        #delNo =[]
         LenGth = len(number)
         i = 0;
         j = 1
         while (j < LenGth):
             if number[i] == number[j]:
                 j += 1
-                delNo.append(number[i])
+                #delNo.append(number[i])
             else:
                 i += 1
                 number[i] = number[j]
                 j += 1
-                delNo.append(number[i])
-        print(delNo)
+                #delNo.append(number[i])
+        #print(delNo)
         return i + 1
 
 a=soluTion()
