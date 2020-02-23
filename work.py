@@ -4,38 +4,149 @@
 #####################################################################
 # function: sort and searching
 # Cracking code page 66, 9.3
+# find number in sorted array
+# input = [1, 3, 4, 5, 7, 10, 14, 15, 16, 19, 20, 25], find '5' -> output should be 3
+#####################################################################
+def searchElement(arrayA, key):
+    lenGth = len(arrayA)
+    start = 0
+    end = lenGth - 1
+
+    while (start <= end):
+        m = (start + end) / 2
+        if (key == arrayA[m]):
+            return m
+        elif (arrayA[m] < key):
+            start = m + 1
+        else:
+            end = m - 1
+    return -1
+#    0  1  2  3  4   5   6   7   8   9  10  11
+a = [1, 3, 4, 5, 7, 10, 14, 15, 16, 19, 20, 25]
+
+for i in range(0,30):
+    rst = searchElement(a, i)
+    if rst is -1:
+        print("%2d is not in array a" % i)
+    else:
+        print("%2d is located in a[%d]" % (i, rst))
+#####################################################################
+#'''
+
+
+'''
+#####################################################################
+# function: sort and searching
+# Cracking code page 66, 9.3
+# Given a sorted array of n integers that has been rotated an unknown number of times,
+# give an O(log n) algorithm that finds an element in the array. you may assume that
+# the array was originally sorted in increasing order.
+# input = [15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10,14], find '5' -> output should be 8
+# https://www.geeksforgeeks.org/search-an-element-in-a-sorted-and-pivoted-array/
+#####################################################################
+def pivotedBinarySearch(arr, n, key):       #array, length, key
+    print("pivotedBinarySearch", n, key)
+    pivot = findPivot(arr, 0, n - 1)
+    # If we didn't find a pivot,
+    # then array is not rotated at all
+    if pivot == -1:
+        return binarySearch(arr, 0, n - 1, key)
+    # If we found a pivot, then first
+    # compare with pivot and then
+    # search in two subarrays around pivot
+    if arr[pivot] == key:
+        return pivot
+    if arr[0] <= key:
+        return binarySearch(arr, 0, pivot - 1, key)
+    return binarySearch(arr, pivot + 1, n - 1, key)
+
+def findPivot(arr, low, high):              #array, 0 ~ length-1
+    print("findPivot", low, high)
+    # base cases
+    if high < low:
+        return -1
+    if high == low:
+        return low
+        # low + (high - low)/2;
+    mid = int((low + high) / 2)
+    if mid < high and arr[mid] > arr[mid + 1]:
+        return mid
+    if mid > low and arr[mid] < arr[mid - 1]:
+        return (mid - 1)
+    if arr[low] >= arr[mid]:
+        print("111111:")
+        return findPivot(arr, low, mid - 1)
+    print("222222:")
+    return findPivot(arr, mid + 1, high)
+
+def binarySearch(arr, low, high, key):
+    print("binarySearch", low, high)
+    if high < low:
+        return -1
+    # low + (high - low)/2;
+    mid = int((low + high) / 2)
+    if key == arr[mid]:
+        return mid
+    if key > arr[mid]:
+        return binarySearch(arr, (mid + 1), high, key);
+    return binarySearch(arr, low, (mid - 1), key);
+
+a = [4, 5, 7, 10, 14, 15, 16, 19, 20, 25, 1, 3]
+a = [15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10, 14]
+a = [10, 14, 15, 16, 19, 20, 25, 1, 3, 4, 5, 7]
+#a = [25, 1, 3, 4, 5, 7, 10, 14, 15, 16, 19, 20]
+#a = [5, 6, 7, 8, 9, 10, 1, 2, 3]
+n = len(a)
+key = 3
+print("Index of the element is : ",  pivotedBinarySearch(a, n, key))
+#####################################################################
+'''
+
+
+
+'''
+#####################################################################
+# function: sort and searching
+# Cracking code page 66, 9.3
 # Given a sorted array of n integers that has been rotated an unknown number of times,
 # give an O(log n) algorithm that finds an element in the array. you may assume that
 # the array was originally sorted in increasing order.
 # input = [15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10,14], find '5' -> output should be 8
 #####################################################################
-#?????
-def searchElement(arrayA, arrayB, lenA, lenB):
-    k = lenA + lenB - 1
-    i = lenA - 1
-    j = lenB - 1
+def searchElement(arrayA, key):
+    lenGth = len(arrayA)
+    start = 0
+    end = lenGth - 1
 
-    for ii in range(i,k):
-        arrayA.append(0)
-
-    while((i >= 0) and (j >= 0)):
-        if(arrayA[i] > arrayB[j]):
-            arrayA[k] = arrayA[i]
-            k = k - 1
-            i = i - 1
+    while (start <= end):
+        m = (start + end) / 2
+        if (key == arrayA[m]):
+            return m
+        elif (arrayA[start] <= arrayA[m]):
+            if(key > arrayA[m]):
+                start = m + 1
+            elif (key >=arrayA[start]):
+                end = m - 1
+            else:
+                start = m + 1
+        elif (key < arrayA[m]):
+            end = m - 1
+        elif (key <= arrayA[end]):
+            start = m + 1
         else:
-            arrayA[k] = arrayB[j]
-            k = k - 1
-            j = j - 1
-    return arrayA
+            start = m + start
+    return -1
 
-a = [15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10,14]
+a = [4, 5, 7, 10, 14, 15, 16, 19, 20, 25, 1, 3]
+a = [15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10, 14]
+a = [10, 14, 15, 16, 19, 20, 25, 1, 3, 4, 5, 7]
+a = [25, 1, 3, 4, 5, 7, 10, 14, 15, 16, 19, 20]
 
 rst = searchElement(a, 5)
 print(rst)
 
 #####################################################################
-#'''
+'''
 
 
 '''
