@@ -385,45 +385,6 @@ preOrder(root)
 #####################################################################
 '''
 
-'''
-#####################################################################
-# function: tree is balanced or not -#2
-# Cracking code page 54, 4.1
-#
-class Node:
-    def __init__(self, key):
-        self.data = key
-        self.left = None
-        self.right = None
-
-def maxDepth(root):
-    if root is None:
-        return 0
-    return 1 + max(maxDepth(root.left), maxDepth(root.right))
-
-def minDepth(root):
-    if root is None:
-        return 0
-    return 1 + min(minDepth(root.left), minDepth(root.right))
-
-def isBalanced(root):
-    return (maxDepth(root) - minDepth(root) < 1)
-
-# main routine
-root = Node(1)
-#root.left = Node(2)
-#root.right = Node(3)
-#root.left.left = Node(4)
-#root.left.right = Node(5)
-#root.left.left.left = Node(4)
-#root.left.left.right = Node(4)
-print("minDepth = ", minDepth(root))
-print("maxDepth = ", maxDepth(root))
-
-print("isBalanced = ", isBalanced(root))
-#####################################################################
-'''
-
 
 '''
 #####################################################################
@@ -475,7 +436,6 @@ class Node:
         self.data = key
         self.left = None
         self.right = None
-
 
 def minDepth(root):
     # Corner Case.Should never be hit unless the code is
@@ -747,6 +707,7 @@ inPutVar = ['a', 'b', 'c', 'a', 'b', 'c']
 print("input  ", inPutVar)
 rst = a.deleteduplicate(inPutVar)
 print("output ", rst)
+#####################################################################
 '''
 
 #####################################################################
@@ -758,34 +719,6 @@ print("output ", rst)
 #####################################################################
 #####################################################################
 #####################################################################
-
-'''
-#####################################################################
-# function: swap array
-# Input: [1,2,3,4]
-# Output: [4,3,2,1]
-
-class soluTion(object):
-    def swaparray(self, number):
-        result = []
-        LenGth = len(number)
-        for i in range(LenGth):
-            result = number[i]
-            result[i].
-            result[i].append()
-
-        while (j < LenGth):
-            if number[i] != number[j]:
-                j += 1
-            else:
-                i += 1
-        return i + 1
-
-a=soluTion()
-in_num1 = [1,2,3,4]
-rst = a.removeduplicate(in_num1)
-print(rst)
-'''
 
 
 '''
@@ -1162,6 +1095,11 @@ print(rst)
 '''
 #####################################################################
 # function: LeetCode:Easy 9. Palindrome Number
+# Input: 121
+# Output: true
+#
+# Input: -121
+# Output: false
 
 class soluTion(object):
     def isPalindrome(self, x):
