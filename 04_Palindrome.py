@@ -39,3 +39,33 @@ if(inStr == stringVal):
     print("palindrome")
 else:
     print("NOT palindrome")
+
+print("=============================================================")
+print("================ test again for interview ===================")
+def palendrom(arrayA):
+    lenGth = len(arrayA)
+
+    for i in range(lenGth/2):
+        tmp = arrayA[i]
+        arrayA[i] = arrayA[lenGth-1-i]
+        arrayA[lenGth - 1 - i] = tmp
+    return arrayA
+
+
+a = "abcde"
+b = list(a)
+
+rst = palendrom(b)
+print("rst= ", rst)
+
+result = ""
+for i in rst:
+    result += i
+
+print("result= ", result)
+
+if result == a:
+    print("Palendrom")
+else:
+    print("Not Palendrom")
+

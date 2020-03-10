@@ -44,6 +44,7 @@ print(rst)
 # input = [15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10,14], find '5' -> output should be 8
 #####################################################################
 print("===================================================================")
+print("============ find number in unsorted/shifted array number =========")
 def searchElement1(arrayA, key):
     lenGth = len(arrayA)
     start = 0
@@ -72,9 +73,11 @@ a = [4, 5, 7, 10, 14, 15, 16, 19, 20, 25, 1, 3]
 a = [15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10, 14]
 a = [10, 14, 15, 16, 19, 20, 25, 1, 3, 4, 5, 7]
 a = [25, 1, 3, 4, 5, 7, 10, 14, 15, 16, 19, 20]
+a = [13, 25, 27, 35, 1, 3, 5, 7, 9]
 
-rst = searchElement1(a, 5)
-print(rst)
+findVal = 13
+rst = searchElement1(a, findVal)
+print("find number in unsorted/shifted array number", rst)
 
 #####################################################################
 #'''
