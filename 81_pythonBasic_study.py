@@ -1,6 +1,8 @@
 #! /usr/bin/python2.7
 # function: remove next duplicate in array.
 
+print("=====================================================")
+print("========================1============================")
 class PhysicalMemoryCtrl(object):
     def currentAddr(self):
         print("KK_____ currentAddr")
@@ -21,7 +23,7 @@ print("KK_____000000004")
 print("0x%x " % rst)
 
 print("=====================================================")
-print("=====================================================")
+print("========================2============================")
 class   Person:
     def __init__(self, firstname, lastname):
         self.firstname = firstname
@@ -55,8 +57,30 @@ print(worker.info())
 print(cfo.info())
 
 print("=====================================================")
+print("========================3============================")
+class soluTion(object):
+    def __init__(self, inPut1st):
+        self.inPut1st = inPut1st
+        print("soluTion __init__ inPut1st=%d  " % inPut1st)
+
+    def draw(self):
+        print("soluTion draw()")
+
+class secondSol(soluTion):
+    def __init__(self, inPut1st, inPut2nd):
+        super(secondSol, self).__init__(inPut1st)
+        self.inPut2nd = inPut2nd
+        print("secondSol __init__ inPut1st=%d, inPut2nd=%d  " % (inPut1st, inPut2nd))
+
+    def draw(self):
+        print("secondSol draw()")
+
+a = soluTion(1)
+b = secondSol(2,3)
+
 print("=====================================================")
-class Computer():
+print("========================4============================")
+class Computer(object):
     def __init__(self, computer, ram, ssd):
         self.computer = computer
         self.ram = ram
@@ -67,6 +91,8 @@ class Laptop(Computer):
         super(Laptop, self).__init__(computer, ram, ssd)
         self.model = model
 
+comp = Computer('lenovo', 2, 512)
+print(comp.computer)
 lenovo = Laptop('lenovo', 2, 512, 'l420')
 print('This computer is:', lenovo.computer)
 print('This computer has ram of', lenovo.ram)
