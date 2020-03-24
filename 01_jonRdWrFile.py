@@ -2,8 +2,8 @@
 
 #2020/02/23 - re-program
 
-inFile  = open("a.csv", 'r')
-outFile = open("a2.out", 'w')
+inFile  = open("01_jonRdWrFile.csv", 'r')
+outFile = open("01_jonRdWrFile.out", 'w')
 
 linelength = 1
 a_out = {}
