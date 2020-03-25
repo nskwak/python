@@ -6,7 +6,7 @@ import re
 import sys
 
 ####################################################################
-# hackerrank.com: Hash Table: two stringt"
+# hackerrank.com: Hash Table: two strings"
 # input: s1 = 'hello', s2 = 'world'
 # output: YES
 # input: s1 = 'hi', s2 = 'world'
