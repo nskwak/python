@@ -1,0 +1,10 @@
+[SeqCond-/dev/nvme0n1]
+readwrite=write
+bs=128k
+ioengine=libaio
+iodepth=64
+direct=1
+filename=/dev/nvme0n1
+size=1G
+thread=1
+offset=0G

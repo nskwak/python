@@ -1,0 +1,15 @@
+[RandCond-/dev/nvme0n1]
+readwrite=randwrite
+bs=4k
+invalidate=1
+end_fsync=0
+group_reporting=1
+direct=1
+filename=/dev/nvme0n1
+size=1G
+ioengine=libaio
+iodepth=256
+norandommap
+randrepeat=0
+thread=1
+offset=0G
